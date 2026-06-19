@@ -1,10 +1,12 @@
-from fastapi import Header, HTTPException, status
+from typing import Annotated
 
-from app.core.config import Settings
+from fastapi import Depends, Header, HTTPException, status
+
+from app.core.config import Settings, get_settings
 
 
 async def verify_metrics_api_key(
-    settings: Settings,
+    settings: Annotated[Settings, Depends(get_settings)],
     x_api_key: str | None = Header(default=None, alias="X-API-Key"),
 ) -> None:
     """Protect metrics only when METRICS_API_KEY is configured."""
