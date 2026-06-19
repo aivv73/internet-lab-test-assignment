@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     storage_dir: Path = Path("storage")
     log_file: Path = Path("storage/logs/app.log")
+    frontend_dist_dir: Path = Path("frontend/dist/frontend/browser")
 
     cors_origins: list[str] = Field(default_factory=lambda: ["http://localhost:4200"])
 

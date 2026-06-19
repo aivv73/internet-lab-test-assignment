@@ -1,66 +1,58 @@
 :root {
   color-scheme: light;
   --color-bg: oklch(1 0 0);
-  --color-surface: oklch(0.972 0.006 145);
-  --color-surface-strong: oklch(0.928 0.014 145);
-  --color-ink: oklch(0.155 0.018 145);
-  --color-muted: oklch(0.365 0.028 145);
-  --color-rule: oklch(0.845 0.018 145);
-  --color-primary: oklch(0.35 0.11 140);
+  --color-surface: oklch(0.984 0.008 145);
+  --color-surface-strong: oklch(0.946 0.018 145);
+  --color-ink: oklch(0.165 0.025 146);
+  --color-muted: oklch(0.345 0.027 146);
+  --color-rule: oklch(0.805 0.018 145);
+  --color-rule-soft: oklch(0.905 0.011 145);
+  --color-primary: oklch(0.36 0.112 140);
   --color-primary-hover: oklch(0.29 0.105 140);
-  --color-primary-soft: oklch(0.92 0.045 140);
-  --color-amber: oklch(0.62 0.13 72);
-  --color-amber-soft: oklch(0.94 0.055 78);
-  --color-error: oklch(0.45 0.16 28);
-  --color-error-soft: oklch(0.95 0.045 28);
-  --focus-ring: 0 0 0 3px oklch(0.78 0.11 145 / 0.55);
-  --font-sans: ui-sans-serif, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-code: ui-monospace, "SFMono-Regular", "Cascadia Code", "Liberation Mono", monospace;
+  --color-primary-soft: oklch(0.924 0.045 140);
+  --color-amber: oklch(0.68 0.145 78);
+  --color-amber-ink: oklch(0.36 0.078 72);
+  --color-amber-soft: oklch(0.945 0.058 78);
+  --color-error: oklch(0.46 0.17 28);
+  --color-error-soft: oklch(0.952 0.047 28);
+  --focus-ring: 0 0 0 3px oklch(0.76 0.11 145 / 0.52);
+  --font-sans: Aptos, "Aptos Display", "Segoe UI Variable", "Segoe UI", system-ui, sans-serif;
+  --font-code: "Cascadia Mono", "SFMono-Regular", "Cascadia Code", "Liberation Mono", monospace;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --space-page: clamp(1rem, 3vw, 2rem);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   margin: 0;
   min-width: 320px;
-  background: var(--color-bg);
+  background:
+    radial-gradient(circle at 18% 8%, oklch(0.94 0.035 140 / 0.38), transparent 32rem),
+    linear-gradient(90deg, oklch(0.84 0.012 145 / 0.34) 1px, transparent 1px),
+    linear-gradient(0deg, oklch(0.84 0.012 145 / 0.28) 1px, transparent 1px),
+    var(--color-bg);
+  background-size: auto, 72px 72px, 72px 72px, auto;
   color: var(--color-ink);
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.6;
+  font-kerning: normal;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
 
-a {
-  color: inherit;
-}
+a { color: inherit; }
+button, input, textarea { font: inherit; }
 
-button,
-input,
-textarea {
-  font: inherit;
-}
-
-::selection {
-  background: var(--color-primary-soft);
-  color: var(--color-ink);
-}
+::selection { background: var(--color-primary-soft); color: var(--color-ink); }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     scroll-behavior: auto !important;
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;

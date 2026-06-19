@@ -25,3 +25,5 @@ make frontend-build
 ```
 
 The build output is generated under `frontend/dist/frontend` and will be served by FastAPI in the deployment phase.
+FastAPI reads the browser bundle from `FRONTEND_DIST_DIR`, which defaults to
+`frontend/dist/frontend/browser`.

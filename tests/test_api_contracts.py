@@ -72,7 +72,11 @@ def test_ai_fallback_matches_contract() -> None:
 
 
 def test_metrics_endpoint_is_open_when_api_key_is_not_configured(tmp_path: Path) -> None:
-    settings = Settings(metrics_api_key=None, log_file=tmp_path / "app.log")
+    settings = Settings(
+        metrics_api_key=None,
+        storage_dir=tmp_path / "storage",
+        log_file=tmp_path / "app.log",
+    )
     app = create_app(settings)
     app.dependency_overrides[get_settings] = lambda: settings
     client = TestClient(app)
@@ -84,7 +88,11 @@ def test_metrics_endpoint_is_open_when_api_key_is_not_configured(tmp_path: Path)
 
 
 def test_metrics_endpoint_requires_api_key_when_configured(tmp_path: Path) -> None:
-    settings = Settings(metrics_api_key="secret", log_file=tmp_path / "app.log")
+    settings = Settings(
+        metrics_api_key="secret",
+        storage_dir=tmp_path / "storage",
+        log_file=tmp_path / "app.log",
+    )
     app = create_app(settings)
     app.dependency_overrides[get_settings] = lambda: settings
     client = TestClient(app)

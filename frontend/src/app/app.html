@@ -3,15 +3,20 @@
 <main class="page-shell">
   <nav class="topbar" aria-label="Primary navigation">
     <a class="brand-mark" href="#top" aria-label="InternetLab assignment home">
-      <span class="brand-mark__symbol" aria-hidden="true">IL</span>
-      <span class="brand-mark__copy">Backend Assignment</span>
+      <span class="brand-mark__symbol" aria-hidden="true">
+        <span></span>
+      </span>
+      <span class="brand-mark__copy">
+        <strong>mossline/</strong>
+        <small>Backend Assignment</small>
+      </span>
     </a>
     <div class="topbar__links">
       <a href="#lifecycle">Lifecycle</a>
       <a href="#architecture">Architecture</a>
       <a href="#contact-form">Demo form</a>
       <a href="https://github.com/aivv73/internet-lab-test-assignment" rel="noreferrer" target="_blank">
-        GitHub
+        GitHub <span aria-hidden="true">↗</span>
       </a>
     </div>
   </nav>
@@ -19,46 +24,120 @@
   <section class="hero" id="top" aria-labelledby="hero-title">
     <div class="hero__content">
       <p class="proof-line">FastAPI · Angular · AI analysis · SMTP fallback · JSON storage</p>
-      <h1 id="hero-title">A junior backend assignment built with production-shaped habits.</h1>
+      <h1 id="hero-title">Production-shaped backend habits</h1>
       <p class="hero__lede">
-        This landing page is backed by a real API: validation, rate limiting, AI classification,
-        file persistence, email delivery fallback, metrics, tests, and documented architecture.
+        A minimal contact flow with real-world safeguards: validate early, classify carefully,
+        never lose a message, and keep the response clear enough for a reviewer to inspect.
       </p>
       <div class="hero__actions" aria-label="Primary actions">
-        <a class="button button--primary" href="#contact-form">Try the API flow</a>
-        <a class="button button--secondary" href="/docs" target="_blank">Open Swagger</a>
+        <a class="button button--primary" href="#contact-form">
+          <span aria-hidden="true">→</span>
+          Try the API flow
+        </a>
+        <a class="button button--secondary" href="/docs" target="_blank">
+          <span aria-hidden="true">▣</span>
+          Open Swagger
+        </a>
       </div>
+      <ul class="stack-list" aria-label="Stack highlights">
+        <li>FastAPI</li>
+        <li>Angular</li>
+        <li>AI analysis</li>
+        <li>SMTP fallback</li>
+        <li>JSON storage</li>
+      </ul>
     </div>
 
-    <aside class="api-specimen" aria-label="API response specimen">
-      <div class="api-specimen__header">
+    <aside class="lifecycle-board" aria-label="Request lifecycle map">
+      <div class="board-title">
+        <strong>Request lifecycle map</strong>
         <span>POST /api/contact</span>
-        <strong>202 Accepted</strong>
       </div>
-      <pre><code>{{ '{' }}
-  "email_delivery": "queued",
-  "ai": {{ '{' }}
-    "category": "project_inquiry",
-    "sentiment": "positive",
-    "fallback_used": false
-  {{ '}' }}
+
+      <div class="swimlane" aria-hidden="true">
+        <div class="swimlane__roles">
+          <span>Client</span>
+          <span>API gateway</span>
+          <span>AI service</span>
+          <span>SMTP service</span>
+          <span>Storage</span>
+        </div>
+        <div class="swimlane__grid">
+          <div class="stage stage--received" style="--x: 8%; --y: 16%">
+            <b>1</b>
+            <span>Received</span>
+          </div>
+          <div class="stage stage--validated" style="--x: 26%; --y: 30%">
+            <b>2</b>
+            <span>Validated</span>
+          </div>
+          <div class="stage stage--classified" style="--x: 47%; --y: 30%">
+            <b>3</b>
+            <span>Classified</span>
+          </div>
+          <div class="stage stage--queued" style="--x: 66%; --y: 62%">
+            <b>4</b>
+            <span>Queued</span>
+          </div>
+          <div class="stage stage--accepted" style="--x: 83%; --y: 18%">
+            <b>5</b>
+            <span>202 Accepted</span>
+          </div>
+          <div class="stage stage--recorded" style="--x: 88%; --y: 78%">
+            <b>6</b>
+            <span>Recorded</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="specimen-grid">
+        <div class="api-specimen" aria-label="API request specimen">
+          <div class="specimen-header">
+            <span>API specimen</span>
+            <strong>202 Accepted</strong>
+          </div>
+          <pre><code>{{ '{' }}
+  "name": "Ada Lovelace",
+  "email": "ada@example.com",
+  "comment": "Can we discuss a build?"
 {{ '}' }}</code></pre>
+        </div>
+        <div class="response-note">
+          <strong>Fallback active</strong>
+          <p>If SMTP is missing, the message is stored as JSON and can be retried without data loss.</p>
+        </div>
+      </div>
     </aside>
   </section>
 
-  <section class="review-strip" aria-label="Reviewer highlights">
-    <div>
-      <span class="status-chip status-chip--ok">30 tests</span>
-      <p>Validation, storage, AI fallback, email fallback, metrics and contact workflow.</p>
+  <section class="evidence" aria-label="Reviewer highlights">
+    <div class="evidence__header">
+      <h2>Evidence that matters</h2>
+      <p>What the UI is proving about the backend, without asking the reviewer to hunt.</p>
     </div>
-    <div>
-      <span class="status-chip status-chip--ok">Layered</span>
-      <p>Routes call services; services coordinate repositories and integration handlers.</p>
+    <div class="evidence__items">
+      <article>
+        <span aria-hidden="true">✓</span>
+        <h3>Schema validation</h3>
+        <p>Pydantic models reject invalid contact data before integrations run.</p>
+      </article>
+      <article>
+        <span aria-hidden="true">◌</span>
+        <h3>AI classification</h3>
+        <p>OpenAI-compatible enrichment is useful when available and safe when unavailable.</p>
+      </article>
+      <article>
+        <span aria-hidden="true">✉</span>
+        <h3>SMTP fallback</h3>
+        <p>Queued outbox records preserve user and owner emails when delivery fails.</p>
+      </article>
+      <article>
+        <span aria-hidden="true">▤</span>
+        <h3>Audit trail</h3>
+        <p>Submissions, rate limits, metrics and outbox entries are persisted locally.</p>
+      </article>
     </div>
-    <div>
-      <span class="status-chip status-chip--warn">Graceful</span>
-      <p>The service still accepts requests when AI or SMTP is unavailable.</p>
-    </div>
+    <p class="evidence__footer">Built to be reliable, observable, and easy to operate.</p>
   </section>
 
   <section class="section-block" id="lifecycle" aria-labelledby="lifecycle-title">
@@ -66,8 +145,8 @@
       <p class="section-kicker">Request path</p>
       <h2 id="lifecycle-title">Every step is visible, testable, and recoverable.</h2>
       <p>
-        The interface is intentionally reviewer-oriented: it shows the backend lifecycle instead of
-        hiding the work behind a polished contact form.
+        The interface exposes the same lifecycle the FastAPI service implements: validation, rate
+        limiting, AI enrichment, persistence, email fallback and a non-blocking API response.
       </p>
     </div>
 
@@ -96,25 +175,30 @@
   </section>
 
   <section class="architecture" id="architecture" aria-labelledby="architecture-title">
-    <div>
-      <p class="section-kicker">Backend shape</p>
-      <h2 id="architecture-title">Not a demo endpoint — a small service boundary.</h2>
+    <div class="architecture__heading">
+      <p class="section-kicker">Service boundary</p>
+      <h2 id="architecture-title">Small layers, clear responsibilities.</h2>
     </div>
-    <div class="architecture__grid">
+    <div class="architecture-flow" aria-label="Architecture layers">
       <article>
-        <span class="architecture__label">Routes</span>
-        <h3>HTTP concerns stay thin</h3>
-        <p>FastAPI routes handle request context, dependencies and status codes.</p>
+        <span>Angular client</span>
+        <h3>Reactive form</h3>
+        <p>Client validation, submission state and response display.</p>
       </article>
       <article>
-        <span class="architecture__label">Services</span>
-        <h3>Workflow is explicit</h3>
-        <p>ContactService coordinates rate limiting, AI, storage, email and metrics.</p>
+        <span>FastAPI backend</span>
+        <h3>Thin routes</h3>
+        <p>Request context, dependencies and consistent HTTP errors.</p>
       </article>
       <article>
-        <span class="architecture__label">Repositories</span>
-        <h3>Persistence is isolated</h3>
-        <p>JSON file repositories keep storage details away from business logic.</p>
+        <span>ContactService</span>
+        <h3>Workflow owner</h3>
+        <p>Coordinates rate limits, AI, persistence, email and metrics.</p>
+      </article>
+      <article>
+        <span>Repositories</span>
+        <h3>File storage</h3>
+        <p>JSON storage keeps business logic away from persistence details.</p>
       </article>
     </div>
   </section>
@@ -122,7 +206,7 @@
   <section class="contact-section" aria-labelledby="contact-title">
     <div class="contact-section__copy">
       <p class="section-kicker">Live integration</p>
-      <h2 id="contact-title">Submit a contact request and inspect the backend response.</h2>
+      <h2 id="contact-title">Submit a contact request and inspect the response.</h2>
       <p>
         In local mode, missing AI and SMTP credentials intentionally trigger graceful fallback:
         AI analysis is marked as fallback and emails are queued in the file outbox.
@@ -134,40 +218,48 @@
     </div>
 
     <form class="contact-form" id="contact-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
-      <div class="form-row">
-        <label for="name">Name</label>
-        <input id="name" type="text" formControlName="name" autocomplete="name" />
-        @if (fieldError('name'); as error) {
-          <p class="field-error">{{ error }}</p>
-        }
+      <div class="contact-form__header">
+        <span>Try it: contact form demo</span>
+        <strong>POST /api/contact</strong>
       </div>
 
-      <div class="form-row">
-        <label for="email">Email</label>
-        <input id="email" type="email" formControlName="email" autocomplete="email" />
-        @if (fieldError('email'); as error) {
-          <p class="field-error">{{ error }}</p>
-        }
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="name">Name</label>
+          <input id="name" type="text" formControlName="name" autocomplete="name" placeholder="Ada Lovelace" />
+          @if (fieldError('name'); as error) {
+            <p class="field-error">{{ error }}</p>
+          }
+        </div>
+
+        <div class="form-row">
+          <label for="email">Email</label>
+          <input id="email" type="email" formControlName="email" autocomplete="email" placeholder="ada@example.com" />
+          @if (fieldError('email'); as error) {
+            <p class="field-error">{{ error }}</p>
+          }
+        </div>
       </div>
 
       <div class="form-row">
         <label for="phone">Phone</label>
-        <input id="phone" type="tel" formControlName="phone" autocomplete="tel" />
+        <input id="phone" type="tel" formControlName="phone" autocomplete="tel" placeholder="+1 555 0123" />
         @if (fieldError('phone'); as error) {
           <p class="field-error">{{ error }}</p>
         }
       </div>
 
       <div class="form-row">
-        <label for="comment">Comment</label>
-        <textarea id="comment" rows="5" formControlName="comment"></textarea>
+        <label for="comment">Message</label>
+        <textarea id="comment" rows="5" formControlName="comment" placeholder="Tell me what you want to build or review."></textarea>
         @if (fieldError('comment'); as error) {
           <p class="field-error">{{ error }}</p>
         }
       </div>
 
       <button class="button button--primary contact-form__submit" type="submit" [disabled]="isSubmitting()">
-        {{ isSubmitting() ? 'Sending through API…' : 'Send through API' }}
+        <span aria-hidden="true">{{ isSubmitting() ? '…' : '↗' }}</span>
+        {{ isSubmitting() ? 'Sending through API…' : 'Send message' }}
       </button>
 
       @if (apiError(); as error) {
@@ -204,6 +296,8 @@
           <p>{{ result.ai.summary }}</p>
         </div>
       }
+
+      <p class="privacy-line">Your data is validated, processed locally, and queued safely when integrations are unavailable.</p>
     </form>
   </section>
 </main>
