@@ -1,0 +1,209 @@
+<a class="skip-link" href="#contact-form">Skip to contact form</a>
+
+<main class="page-shell">
+  <nav class="topbar" aria-label="Primary navigation">
+    <a class="brand-mark" href="#top" aria-label="InternetLab assignment home">
+      <span class="brand-mark__symbol" aria-hidden="true">IL</span>
+      <span class="brand-mark__copy">Backend Assignment</span>
+    </a>
+    <div class="topbar__links">
+      <a href="#lifecycle">Lifecycle</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#contact-form">Demo form</a>
+      <a href="https://github.com/aivv73/internet-lab-test-assignment" rel="noreferrer" target="_blank">
+        GitHub
+      </a>
+    </div>
+  </nav>
+
+  <section class="hero" id="top" aria-labelledby="hero-title">
+    <div class="hero__content">
+      <p class="proof-line">FastAPI · Angular · AI analysis · SMTP fallback · JSON storage</p>
+      <h1 id="hero-title">A junior backend assignment built with production-shaped habits.</h1>
+      <p class="hero__lede">
+        This landing page is backed by a real API: validation, rate limiting, AI classification,
+        file persistence, email delivery fallback, metrics, tests, and documented architecture.
+      </p>
+      <div class="hero__actions" aria-label="Primary actions">
+        <a class="button button--primary" href="#contact-form">Try the API flow</a>
+        <a class="button button--secondary" href="/docs" target="_blank">Open Swagger</a>
+      </div>
+    </div>
+
+    <aside class="api-specimen" aria-label="API response specimen">
+      <div class="api-specimen__header">
+        <span>POST /api/contact</span>
+        <strong>202 Accepted</strong>
+      </div>
+      <pre><code>{{ '{' }}
+  "email_delivery": "queued",
+  "ai": {{ '{' }}
+    "category": "project_inquiry",
+    "sentiment": "positive",
+    "fallback_used": false
+  {{ '}' }}
+{{ '}' }}</code></pre>
+    </aside>
+  </section>
+
+  <section class="review-strip" aria-label="Reviewer highlights">
+    <div>
+      <span class="status-chip status-chip--ok">30 tests</span>
+      <p>Validation, storage, AI fallback, email fallback, metrics and contact workflow.</p>
+    </div>
+    <div>
+      <span class="status-chip status-chip--ok">Layered</span>
+      <p>Routes call services; services coordinate repositories and integration handlers.</p>
+    </div>
+    <div>
+      <span class="status-chip status-chip--warn">Graceful</span>
+      <p>The service still accepts requests when AI or SMTP is unavailable.</p>
+    </div>
+  </section>
+
+  <section class="section-block" id="lifecycle" aria-labelledby="lifecycle-title">
+    <div class="section-copy">
+      <p class="section-kicker">Request path</p>
+      <h2 id="lifecycle-title">Every step is visible, testable, and recoverable.</h2>
+      <p>
+        The interface is intentionally reviewer-oriented: it shows the backend lifecycle instead of
+        hiding the work behind a polished contact form.
+      </p>
+    </div>
+
+    <ol class="lifecycle-list">
+      <li>
+        <strong>Validate</strong>
+        <span>Pydantic schemas reject unknown fields and invalid contact data.</span>
+      </li>
+      <li>
+        <strong>Rate limit</strong>
+        <span>Combined IP and email windows block spam before AI or email work.</span>
+      </li>
+      <li>
+        <strong>Analyze</strong>
+        <span>OpenAI-compatible classification enriches the owner notification.</span>
+      </li>
+      <li>
+        <strong>Persist</strong>
+        <span>Submissions, metrics, rate-limit state and outbox entries live in JSON storage.</span>
+      </li>
+      <li>
+        <strong>Deliver</strong>
+        <span>SMTP sends both emails; local outbox queues both when SMTP fails.</span>
+      </li>
+    </ol>
+  </section>
+
+  <section class="architecture" id="architecture" aria-labelledby="architecture-title">
+    <div>
+      <p class="section-kicker">Backend shape</p>
+      <h2 id="architecture-title">Not a demo endpoint — a small service boundary.</h2>
+    </div>
+    <div class="architecture__grid">
+      <article>
+        <span class="architecture__label">Routes</span>
+        <h3>HTTP concerns stay thin</h3>
+        <p>FastAPI routes handle request context, dependencies and status codes.</p>
+      </article>
+      <article>
+        <span class="architecture__label">Services</span>
+        <h3>Workflow is explicit</h3>
+        <p>ContactService coordinates rate limiting, AI, storage, email and metrics.</p>
+      </article>
+      <article>
+        <span class="architecture__label">Repositories</span>
+        <h3>Persistence is isolated</h3>
+        <p>JSON file repositories keep storage details away from business logic.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="contact-section" aria-labelledby="contact-title">
+    <div class="contact-section__copy">
+      <p class="section-kicker">Live integration</p>
+      <h2 id="contact-title">Submit a contact request and inspect the backend response.</h2>
+      <p>
+        In local mode, missing AI and SMTP credentials intentionally trigger graceful fallback:
+        AI analysis is marked as fallback and emails are queued in the file outbox.
+      </p>
+      <div class="fallback-note">
+        <strong>Expected local result</strong>
+        <span><code>202 Accepted</code> with <code>email_delivery: queued</code></span>
+      </div>
+    </div>
+
+    <form class="contact-form" id="contact-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+      <div class="form-row">
+        <label for="name">Name</label>
+        <input id="name" type="text" formControlName="name" autocomplete="name" />
+        @if (fieldError('name'); as error) {
+          <p class="field-error">{{ error }}</p>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" autocomplete="email" />
+        @if (fieldError('email'); as error) {
+          <p class="field-error">{{ error }}</p>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="phone">Phone</label>
+        <input id="phone" type="tel" formControlName="phone" autocomplete="tel" />
+        @if (fieldError('phone'); as error) {
+          <p class="field-error">{{ error }}</p>
+        }
+      </div>
+
+      <div class="form-row">
+        <label for="comment">Comment</label>
+        <textarea id="comment" rows="5" formControlName="comment"></textarea>
+        @if (fieldError('comment'); as error) {
+          <p class="field-error">{{ error }}</p>
+        }
+      </div>
+
+      <button class="button button--primary contact-form__submit" type="submit" [disabled]="isSubmitting()">
+        {{ isSubmitting() ? 'Sending through API…' : 'Send through API' }}
+      </button>
+
+      @if (apiError(); as error) {
+        <div class="result-panel result-panel--error" role="alert">
+          <strong>Request was not accepted</strong>
+          <p>{{ error }}</p>
+        </div>
+      }
+
+      @if (response(); as result) {
+        <div class="result-panel result-panel--success" role="status" aria-live="polite">
+          <div class="result-panel__header">
+            <strong>Accepted by API</strong>
+            <span>{{ result.email_delivery }}</span>
+          </div>
+          <dl>
+            <div>
+              <dt>Submission id</dt>
+              <dd>{{ result.id }}</dd>
+            </div>
+            <div>
+              <dt>AI category</dt>
+              <dd>{{ result.ai.category }}</dd>
+            </div>
+            <div>
+              <dt>Sentiment</dt>
+              <dd>{{ result.ai.sentiment }}</dd>
+            </div>
+            <div>
+              <dt>Fallback used</dt>
+              <dd>{{ result.ai.fallback_used ? 'yes' : 'no' }}</dd>
+            </div>
+          </dl>
+          <p>{{ result.ai.summary }}</p>
+        </div>
+      }
+    </form>
+  </section>
+</main>
