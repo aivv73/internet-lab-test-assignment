@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "internet-lab-test-assignment"
+version = "0.1.0"
+description = "Backend-oriented developer landing API with AI integration for InternetLab test assignment."
+authors = ["aivv73 <aivv73@gmail.com>"]
+readme = "README.md"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = ">=3.12,<4.0"
+fastapi = "^0.115.0"
+uvicorn = { extras = ["standard"], version = "^0.34.0" }
+pydantic-settings = "^2.7.0"
+httpx = "^0.28.0"
+aiosmtplib = "^3.0.0"
+email-validator = "^2.2.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.0"
+pytest-asyncio = "^0.25.0"
+ruff = "^0.8.0"
+ty = "^0.0.1a6"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM", "RUF"]
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+asyncio_mode = "auto"
+
+[tool.ty.environment]
+python-version = "3.12"
+
+[tool.ty.src]
+include = ["app/**/*.py", "tests/**/*.py"]
+
+[tool.ty.terminal]
+output-format = "full"
+error-on-warning = false
