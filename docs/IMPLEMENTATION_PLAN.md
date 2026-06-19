@@ -107,7 +107,7 @@ Implement repositories before services so business logic never writes files dire
 - Config:
   - `AI_API_KEY`
   - `AI_BASE_URL`
-  - `AI_MODEL=gpt-4o-mini`
+  - `AI_MODEL=gpt-5.4-nano`
 - AI returns category, sentiment, summary, priority, confidence.
 - Missing key, timeout, invalid response, or provider error returns deterministic fallback.
 - Fallback does not fail the contact request.

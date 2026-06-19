@@ -104,6 +104,6 @@ Controllers / API routes → Services → Repositories / Handlers
 - Backend: Python + FastAPI.
 - Dependency management: Poetry.
 - Quality tools: Ruff, ty, pytest.
-- AI: OpenAI-compatible chat-completion client with fallback when not configured/unavailable.
+- AI: OpenAI-compatible chat-completion client using `gpt-5.4-nano` by default, with fallback when not configured/unavailable.
 - Frontend: small Angular client for the contact form and API interaction.
 - Deployment: single Railway service built with Docker; FastAPI serves the Angular build and exposes `/api/...` endpoints.

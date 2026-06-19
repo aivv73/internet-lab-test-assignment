@@ -20,7 +20,7 @@ class Settings(BaseSettings):
 
     ai_api_key: str | None = None
     ai_base_url: str = "https://api.openai.com/v1"
-    ai_model: str = "gpt-4o-mini"
+    ai_model: str = "gpt-5.4-nano"
     ai_timeout_seconds: int = 10
 
     contact_owner_email: str = "owner@example.com"

@@ -22,7 +22,7 @@ The AI provider will be OpenAI-compatible and configured with:
 
 - `AI_API_KEY`
 - `AI_BASE_URL` optional
-- `AI_MODEL`, defaulting to `gpt-4o-mini`
+- `AI_MODEL`, defaulting to `gpt-5.4-nano`
 
 If AI is not configured or fails, the service uses fallback analysis:
 
