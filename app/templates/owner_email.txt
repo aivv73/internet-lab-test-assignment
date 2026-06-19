@@ -1,0 +1,8 @@
+New contact submission
+
+Name: {{ name }}
+Email: {{ email }}
+Phone: {{ phone }}
+
+Comment:
+{{ comment }}
