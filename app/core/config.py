@@ -26,6 +26,9 @@ class Settings(BaseSettings):
 
     contact_owner_email: str = "owner@example.com"
     email_from: str = "no-reply@example.com"
+    email_provider: str = "smtp"
+    resend_api_key: str | None = None
+    resend_base_url: str = "https://api.resend.com"
     smtp_host: str | None = None
     smtp_port: int = 587
     smtp_username: str | None = None

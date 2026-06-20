@@ -31,10 +31,11 @@ Recommended production/demo variables:
 - `CORS_ORIGINS=https://<your-railway-domain>`
 - `CONTACT_OWNER_EMAIL=<owner email>`
 - `EMAIL_FROM=<verified sender>`
+- `EMAIL_PROVIDER=resend` and `RESEND_API_KEY=<resend key>` when email should be sent through Resend over HTTPS
 - `AI_API_KEY=<provider key>` when AI enrichment should call the provider
 - `AI_BASE_URL=https://api.openai.com/v1` or another OpenAI-compatible base URL
 - `AI_MODEL=gpt-5.4-nano` or your chosen model
-- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_USE_TLS` when email should send through SMTP
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_USE_TLS` when email should send through SMTP instead
 - `METRICS_API_KEY=<secret>` to protect `/api/metrics`
 
 The Docker image sets these defaults:

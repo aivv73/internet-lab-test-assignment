@@ -13,6 +13,8 @@ class SMTPDeliveryError(Exception):
 class SMTPClient:
     """Small async SMTP client wrapper."""
 
+    name = "SMTP"
+
     def __init__(self, settings: Settings) -> None:
         self._settings = settings
 

@@ -14,8 +14,8 @@ request → validation → rate limiting → AI analysis → persistence → ema
 - **Combined rate limiting** by client IP and email address.
 - **OpenAI-compatible AI integration** for category, sentiment, priority, confidence, and summary.
 - **Deterministic AI fallback** when the provider is not configured or fails.
-- **SMTP email delivery** to the owner and user.
-- **File outbox fallback** when SMTP is not configured or delivery fails.
+- **Email delivery via Resend HTTPS API or SMTP** to the owner and user.
+- **File outbox fallback** when the configured email provider is unavailable or delivery fails.
 - **JSON file storage** for submissions, metrics, rate-limit state, logs, and outbox messages.
 - **Metrics endpoint** with optional `X-API-Key` protection.
 - **FastAPI-served Angular build** for single-origin production deployment.
@@ -28,7 +28,7 @@ request → validation → rate limiting → AI analysis → persistence → ema
 app/
   api/routes/          FastAPI route modules
   core/                settings, logging, errors, security helpers
-  handlers/            AI and SMTP integration clients
+  handlers/            AI, Resend, and SMTP integration clients
   repositories/        JSON file persistence boundaries
   schemas/             Pydantic API contracts
   services/            workflow/business logic
@@ -68,7 +68,7 @@ Create a local env file if you want to override defaults:
 cp .env.example .env
 ```
 
-The app works without AI or SMTP credentials. In that mode, contact submissions still return `202 Accepted`, AI analysis uses fallback values, and emails are written to the local outbox.
+The app works without AI or email provider credentials. In that mode, contact submissions still return `202 Accepted`, AI analysis uses fallback values, and emails are written to the local outbox.
 
 ## Running locally
 
@@ -137,13 +137,16 @@ See `.env.example` for the full list.
 | `AI_MODEL` | `gpt-5.4-nano` | Chat completion model name. |
 | `AI_TIMEOUT_SECONDS` | `10` | Provider request timeout. |
 
-### Email / SMTP
+### Email / Resend / SMTP
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `CONTACT_OWNER_EMAIL` | `owner@example.com` | Owner notification recipient. |
-| `EMAIL_FROM` | `no-reply@example.com` | Sender address. |
-| `SMTP_HOST` | empty | Enables SMTP delivery when set. |
+| `EMAIL_FROM` | `no-reply@example.com` | Sender address. For Resend, use a verified sender/domain. |
+| `EMAIL_PROVIDER` | `smtp` | Email provider: `smtp` or `resend`. |
+| `RESEND_API_KEY` | empty | Enables Resend HTTPS API delivery when `EMAIL_PROVIDER=resend`. |
+| `RESEND_BASE_URL` | `https://api.resend.com` | Resend API base URL. |
+| `SMTP_HOST` | empty | Enables SMTP delivery when `EMAIL_PROVIDER=smtp` and host is set. |
 | `SMTP_PORT` | `587` | SMTP port. |
 | `SMTP_USERNAME` | empty | SMTP username. |
 | `SMTP_PASSWORD` | empty | SMTP password. |
@@ -264,8 +267,8 @@ Example response:
 4. AI service calls an OpenAI-compatible chat completion provider when configured.
 5. If AI is missing or fails, deterministic fallback analysis is used.
 6. Submission is saved to JSON storage.
-7. Email service sends owner/user emails through SMTP when configured.
-8. If SMTP is missing or fails, both messages are saved to the outbox.
+7. Email service sends owner/user emails through Resend or SMTP when configured.
+8. If the selected email provider is missing or fails, both messages are saved to the outbox.
 9. Metrics are updated.
 10. API returns `202 Accepted` with submission id, email delivery status, and AI analysis.
 
@@ -300,13 +303,18 @@ Each accepted contact submission builds two email messages:
 - owner notification with contact details and AI analysis;
 - user confirmation copy.
 
-If SMTP is configured, the service attempts delivery and returns:
+The service supports two delivery providers:
+
+- `EMAIL_PROVIDER=resend` sends through the Resend HTTPS API. This is the recommended Railway option because many platforms restrict outbound SMTP ports.
+- `EMAIL_PROVIDER=smtp` sends through SMTP when `SMTP_HOST` and sender settings are configured.
+
+If the selected provider is configured and delivery succeeds, the API returns:
 
 ```json
 "email_delivery": "sent"
 ```
 
-If SMTP is not configured or delivery fails, the service queues both messages under:
+If the provider is not configured or delivery fails, the service queues both messages under:
 
 ```text
 storage/outbox/
@@ -393,7 +401,8 @@ Deployment outline:
    - `CONTACT_OWNER_EMAIL=<owner email>`
    - `EMAIL_FROM=<verified sender>`
    - `AI_API_KEY=<provider key>` if provider AI should be enabled
-   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_USE_TLS` if SMTP should send mail
+   - `EMAIL_PROVIDER=resend` and `RESEND_API_KEY=<provider key>` if Resend should send mail over HTTPS
+   - `SMTP_HOST`, `SMTP_PORT`, `SMTP_USERNAME`, `SMTP_PASSWORD`, `SMTP_USE_TLS` if SMTP should send mail instead
    - `METRICS_API_KEY=<secret>` to protect metrics
 4. Attach a Railway Volume if you want JSON storage to persist across redeploys/restarts, and set `STORAGE_DIR` to the mounted path.
 
@@ -413,9 +422,9 @@ Architecture decision records are in [`docs/adr/`](docs/adr/):
 AI assistance was used to accelerate planning, code generation, UI copy/design iteration, and README drafting. The project was still reviewed and corrected manually through:
 
 - explicit architecture decisions in `docs/adr/`;
-- deterministic fallback behavior instead of assuming external AI/SMTP availability;
+- deterministic fallback behavior instead of assuming external AI/email-provider availability;
 - typed Pydantic request/response contracts;
-- pytest coverage for success, validation, rate limit, AI fallback, SMTP outbox, metrics, and frontend serving;
+- pytest coverage for success, validation, rate limit, AI fallback, email-provider outbox, metrics, and frontend serving;
 - Ruff and ty checks;
 - local Angular build verification;
 - Docker image build and container smoke testing.

@@ -2,6 +2,7 @@ import logging
 from typing import Protocol
 
 from app.core.config import Settings
+from app.handlers.resend_client import ResendClient
 from app.handlers.smtp_client import SMTPClient
 from app.repositories.json_file import JsonObject
 from app.repositories.outbox_repository import OutboxRepository
@@ -12,11 +13,14 @@ from app.schemas.email import EmailMessageData
 logger = logging.getLogger("app.email")
 
 
-class SMTPProvider(Protocol):
+class EmailProvider(Protocol):
     @property
     def is_configured(self) -> bool: ...
 
     async def send(self, message: EmailMessageData) -> None: ...
+
+
+SMTPProvider = EmailProvider
 
 
 class EmailService:
@@ -26,11 +30,11 @@ class EmailService:
         self,
         settings: Settings,
         outbox_repository: OutboxRepository,
-        smtp_client: SMTPProvider | None = None,
+        smtp_client: EmailProvider | None = None,
     ) -> None:
         self._settings = settings
         self._outbox_repository = outbox_repository
-        self._smtp_client = smtp_client or SMTPClient(settings)
+        self._email_provider = smtp_client or _build_email_provider(settings)
 
     async def send_contact_emails(
         self,
@@ -39,16 +43,21 @@ class EmailService:
     ) -> EmailDeliveryStatus:
         messages = self._build_contact_messages(contact, ai)
 
-        if not self._smtp_client.is_configured:
-            self._queue_messages(messages, reason="SMTP is not configured.")
+        provider_name = _provider_name(self._email_provider)
+        if not self._email_provider.is_configured:
+            self._queue_messages(messages, reason=f"{provider_name} is not configured.")
             return "queued"
 
         try:
             for message in messages:
-                await self._smtp_client.send(message)
+                await self._email_provider.send(message)
         except Exception as exc:
-            logger.warning("SMTP delivery failed; queueing emails to outbox.", exc_info=exc)
-            self._queue_messages(messages, reason="SMTP delivery failed.")
+            logger.warning(
+                "%s delivery failed; queueing emails to outbox.",
+                provider_name,
+                exc_info=exc,
+            )
+            self._queue_messages(messages, reason=f"{provider_name} delivery failed.")
             return "queued"
 
         return "sent"
@@ -112,3 +121,14 @@ def _message_to_outbox_payload(message: EmailMessageData, *, reason: str) -> Jso
         "body": message.body,
         "reason": reason,
     }
+
+
+def _build_email_provider(settings: Settings) -> EmailProvider:
+    if settings.email_provider.lower() == "resend":
+        return ResendClient(settings)
+    return SMTPClient(settings)
+
+
+def _provider_name(provider: EmailProvider) -> str:
+    name = getattr(provider, "name", "SMTP")
+    return str(name)
