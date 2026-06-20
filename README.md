@@ -1,3 +1,9 @@
+Live demo:
+https://api.giraffedev.ru/
+
+API docs:
+https://api.giraffedev.ru/docs
+
 # InternetLab backend test assignment
 
 Backend-oriented developer landing service for the InternetLab test assignment. The project demonstrates a complete contact-form request lifecycle with FastAPI, AI enrichment, email delivery/fallback, file persistence, metrics, rate limiting, logging, an Angular frontend, and single-service Docker/Railway deployment.
